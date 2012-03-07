@@ -31,11 +31,11 @@ NEXT_EXPORT=`date "+%s"`
 
 # Perform the next export. Send the OAuth 2 access token and store the UNIX time of this 
 # export in the filename.
-wget -O export-$NEXT_EXPORT.zip \
-     -t 1 \
+curl -v --output export-$NEXT_EXPORT.zip \
      --header "Authorization: Bearer $AT" \
-     "https://www.staging.yammer.com/api/v1/export?since=$DATE"
-
+     --get --data-urlencode since=$DATE \
+     "https://www.yammer.com/api/v1/export"
+     
 # Verify that the download completed successfully.
 if [ $? != 0 ]; then
     echo "Download failed...cleaning up."
